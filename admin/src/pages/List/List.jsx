@@ -1,11 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
-function List() {
-  const url = "http://localhost:4000";
+function List({ url }) {
   const [list, setList] = useState([]);
 
   const fetchList = async () => {
