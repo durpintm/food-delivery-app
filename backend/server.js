@@ -16,10 +16,7 @@ connectDB();
 
 // api endpoints
 app.use("/api/food", foodRouter);
-
-app.get("/", (req, res) => {
-  res.json({ message: "Hello" });
-});
+app.use("/images", express.static("uploads"));
 
 app.listen(PORT, () => {
   console.log("Listening on PORT:", PORT);
