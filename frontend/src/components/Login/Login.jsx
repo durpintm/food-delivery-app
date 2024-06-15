@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./Login.css";
 import { assets } from "../../assets/assets";
+import { StoreContext } from "../../context/StoreContext";
+import axios from "axios";
 
 const Login = ({ setShowLogin }) => {
   const [currentState, setCurrentState] = useState("Login");
@@ -10,6 +12,8 @@ const Login = ({ setShowLogin }) => {
     email: "",
     password: "",
   });
+  const { url } = useContext(StoreContext);
+  const { setToken } = useContext(StoreContext);
 
   const onChangeHandler = (e) => {
     const name = e.target.name;
@@ -17,9 +21,30 @@ const Login = ({ setShowLogin }) => {
     setData((data) => ({ ...data, [name]: value }));
   };
 
+  const onLogin = async (e) => {
+    e.preventDefault();
+
+    let newUrl = url;
+    if (currentState === "Login") {
+      newUrl += "/api/user/login";
+    } else {
+      newUrl += "/api/user/register";
+    }
+
+    const response = await axios.post(newUrl, data);
+
+    if (response.data.success) {
+      setToken(response.data.token);
+      localStorage.setItem("token", response.data.token);
+      setShowLogin(false);
+    } else {
+      alert(response.data.message);
+    }
+  };
+
   return (
     <div className="login-popup">
-      <form action="" className="login-popup-container">
+      <form onSubmit={onLogin} className="login-popup-container">
         <div className="login-popup-title">
           <h2>{currentState}</h2>
           <img
@@ -60,7 +85,7 @@ const Login = ({ setShowLogin }) => {
             required
           />
         </div>
-        <button>
+        <button type="submit">
           {currentState === "Sign Up" ? "Create Account" : "Login"}
         </button>
         <div className="login-popup-condition">
