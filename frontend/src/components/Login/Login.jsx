@@ -4,7 +4,19 @@ import "./Login.css";
 import { assets } from "../../assets/assets";
 
 const Login = ({ setShowLogin }) => {
-  const [currentState, setCurrentState] = useState("Sign Up");
+  const [currentState, setCurrentState] = useState("Login");
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const onChangeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData((data) => ({ ...data, [name]: value }));
+  };
+
   return (
     <div className="login-popup">
       <form action="" className="login-popup-container">
@@ -22,10 +34,31 @@ const Login = ({ setShowLogin }) => {
           {currentState === "Login" ? (
             <></>
           ) : (
-            <input type="text" placeholder="Your Name" required />
+            <input
+              type="text"
+              placeholder="Your Name"
+              name="name"
+              onChange={onChangeHandler}
+              value={data.name}
+              required
+            />
           )}
-          <input type="email" placeholder="Your Email" required />
-          <input type="password" placeholder="Password" required />
+          <input
+            type="email"
+            placeholder="Your Email"
+            name="email"
+            value={data.email}
+            onChange={onChangeHandler}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={data.password}
+            onChange={onChangeHandler}
+            required
+          />
         </div>
         <button>
           {currentState === "Sign Up" ? "Create Account" : "Login"}
