@@ -4,7 +4,39 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 
 // login user
-const loginUser = async (req, res) => {};
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User does not exists!",
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.json({
+        success: false,
+        message: "Username or Password is incorrect!",
+      });
+    }
+
+    const token = createToken(user._id);
+    return res.json({
+      success: true,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "Server error!",
+    });
+  }
+};
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
