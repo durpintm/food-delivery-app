@@ -69,6 +69,7 @@ const StoreContextProvider = (props) => {
       await fetchFoodList();
       if (localStorage.getItem("token")) {
         setToken(localStorage.getItem("token"));
+        console.log("Hi there : " + token);
         await loadCartData(localStorage.getItem("token"));
       }
     }

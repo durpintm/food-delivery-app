@@ -6,6 +6,7 @@ import Order from "./pages/Order/Order";
 import Footer from "./components/Footer/Footer";
 import { useState } from "react";
 import Login from "./components/Login/Login";
+import Verify from "./pages/Verify/Verify";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/verify" element={<Verify />} />
         </Routes>
       </div>
       <Footer />
